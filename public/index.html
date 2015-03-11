@@ -56,9 +56,9 @@ ul
 		};
 
 		$('img').each(function(){
-			console.log(this.width() + " " + $('.log').width() );
-			if (this.width() > $('.log').width()){
-				this.width($('.log').width());
+			console.log(this.width + " " + $('.log').width() );
+			if (this.width > $('.log').width()){
+				this.width = $('.log').width();
 			}
 		});
 	})
