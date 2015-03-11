@@ -50,23 +50,27 @@ ul
 	</div>
 
 	<script type="text/javascript">
-	$(document).ready(function(){
+
 	$.get("/post", function(response){
 		for (var i = response.length-1; i >= 0; i--) {
 			$('.log').append("<li>"+response[i].message+"<br><br>"+new Date(response[i].creationDate).toLocaleString()+"</li><br><hr><br>");
 		};
 
 		$('img').each(function(){
-			console.log(this.clientWidth + " " + $('.log').width() );
-			$(this).on('load' function(){
+			
+			$(this).on('load', function(){
+				console.log(this.clientWidth + " " + $('.log').width() );
 				if (this.clientWidth > $('.log').width()){
 				$(this).attr('width', $('.log').width());
 			}
+			});
 		});
 			
-		});
+	});		
+
+	$(document).ready(function(){
+		
 	});
-});	
 
 	</script>
 </body>
