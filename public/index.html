@@ -59,7 +59,7 @@ ul
 		$('img').each(function(){
 			
 			$(this).on('load', function(){
-				console.log(this.clientWidth + " " + $('.log').width() );
+				// console.log(this.clientWidth + " " + $('.log').width() );
 				if (this.clientWidth > $('.log').width()){
 				$(this).attr('width', $('.log').width());
 			}
