@@ -1,0 +1,19 @@
+{
+  "name": "qrproject",
+  "version": "0.0.1",
+  "description": "An art app using Express 4",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "4.x",
+    "body-parser": "~1.0.0",
+    "mongoose":"3.8.8",
+    "sanitize-html":"1.6.1"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,1 @@
+exports.PostModel = require('./PostModel');
