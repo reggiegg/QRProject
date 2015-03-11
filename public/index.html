@@ -20,7 +20,9 @@ body {
 }
 
 ul
-{
+{	
+	font-family: monospace;
+	white-space: pre;
     padding: 0;
     list-style-type: none;
 }
@@ -33,7 +35,7 @@ ul
 	<div class="wrapper" style="width:100%; margin: 0 auto">
 		<div class="content" style="margin-left: 25%; width: 50%">
 			<div class="image" style="width:100%; text-align:center; margin-bottom:20px;">
-				<img src="public/assets/images/78F5036BEDCD5FEC.JPG" width="100%" height="auto">
+				<img class="headerimage" src="public/assets/images/78F5036BEDCD5FEC.JPG" width="100%" height="auto">
 			</div>
 			<div class="form">
 				<form action="/" method="post" onsubmit="">
@@ -56,7 +58,7 @@ ul
 			$('.log').append("<li>"+response[i].message+"<br><br>"+new Date(response[i].creationDate).toLocaleString()+"</li><br><hr><br>");
 		};
 
-		$('img').each(function(){
+		$('img:not(".headerimage")').each(function(){
 			
 			$(this).on('load', function(){
 				// console.log(this.clientWidth + " " + $('.log').width() );
