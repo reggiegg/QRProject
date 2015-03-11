@@ -16,10 +16,22 @@ app.use('/public', express.static(path.join(__dirname + '/public')));
 app.use('/public/assets/images/', express.static(path.join(__dirname, '/public/assets/images')));
 
 
+app.get('/', function(request, response) {
+  response.sendFile(__dirname+"/public/index.html");
+});
+
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'));
+});
+
+mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_app34770203', function (error) { //Local
+    if (error) {
+      console.log("Cant Connect to mongoDB: "+ error);
+    }
+});
+
+
 app.route('/')
-	.get(function(request, response, next) {
-	  response.sendFile(__dirname+"/public/index.html");
-	})
 	.post(function(req, res, next) {
         var post;
 		console.log("POST: ");
@@ -46,18 +58,7 @@ app.route('/')
 			});     
 		}else {
 			return res.sendFile(__dirname+"/public/index.html");
-		}
-	;
-
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'));
-});
-
-mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_app34770203', function (error) { //Local
-    if (error) {
-      console.log("Cant Connect to mongoDB: "+ error);
-    }
-});
+		}});
 
 app.route('/post')
     .get(function(req, res, next) {
@@ -65,7 +66,33 @@ app.route('/post')
             res.json(docs);
         });
     })
-    
+    .post(function(req, res, next) {
+        var post;
+		console.log("POST: ");
+		console.log(req.param('message'));
+
+		var clean = sanitizeHtml(req.param('message'), {
+		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'img'],
+		  allowedAttributes: {
+		    'img': [ 'src' ]
+		  }
+		});
+		if (clean != ""){
+			post = new PostModel({
+				message: clean,
+			});
+
+			post.save(function (err) {
+				if (!err) {
+				  console.log("Post created");
+				  return res.sendFile(__dirname+"/public/index.html");
+				} else {
+				  return console.log(err);
+				}
+			});     
+		}else {
+			return res.sendFile(__dirname+"/public/index.html");
+		}
 		
 		    
 });
