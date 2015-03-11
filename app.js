@@ -38,7 +38,7 @@ app.route('/')
 		console.log(req.param('message'));
 
 		var clean = sanitizeHtml(req.param('message'), {
-		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'img'],
+		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'img', 'u', 'strike'],
 		  allowedAttributes: {
 		    'img': [ 'src' ]
 		  }
