@@ -24,7 +24,7 @@ app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'));
 });
 
-mongoose.connect('localhost:27017', function (error) { //Local
+mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_app34770203', function (error) { //Local
     if (error) {
       console.log("Cant Connect to mongoDB: "+ error);
     }
