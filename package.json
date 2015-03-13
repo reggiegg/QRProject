@@ -10,7 +10,8 @@
     "express": "4.x",
     "body-parser": "~1.0.0",
     "mongoose":"3.8.8",
-    "sanitize-html":"1.6.1"
+    "sanitize-html":"1.6.1",
+    "swig":"1.4.2"
   },
   "engines": {
     "node": "0.10.x"
