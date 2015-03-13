@@ -115,9 +115,13 @@ app.route('/p/:uid')
 
 app.route('/post/:uid')
     .get(function(req, res, next) {
-        PostModel.find({ uid : req.params.uid }, function (err, docs) {
+    	if (req.params.uid){
+        	PostModel.find({ uid : req.params.uid }, function (err, docs) {
             res.json(docs);
-        });
+        });} else {
+        	PostModel.find({}, function (err, docs) {
+            res.json(docs);
+        }	
     });
 //     .post(function(req, res, next) {
 //         var post;
