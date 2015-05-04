@@ -12,6 +12,7 @@ var PostModel = models.PostModel;
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.set('json spaces', 2);
 
 app.use('/public', express.static(path.join(__dirname + '/public')));
 app.use('/public/assets/images/', express.static(path.join(__dirname, '/public/assets/images')));7
@@ -30,6 +31,8 @@ mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_a
 });
 
 
+// POST to this endpoint posts to board designated in request body - TODO: change from root
+// GET unused - TODO: might change to give overview of all boards, with tags of which boards
 app.route('/')
 	.get( function(req, res) {
 		console.log(req.params.uid);	
@@ -73,6 +76,8 @@ app.route('/')
 		}});
 
 
+// GET generates board from unique identifier - template queries database, building board from results
+// TODO: check to see if this is exploitable
 app.route('/p/:uid')
 	.get( function(req, res) {
 		uid = req.params.uid;
@@ -82,75 +87,19 @@ app.route('/p/:uid')
 		});	
 
 	});
-	// .post(function(req, res, next) {
-	// 	uid = req.body.uid;
- //        var post;
-	// 	console.log("POST: ");
-	// 	console.log(req.body.uid);
-	// 	console.log(req.body.message);
 
-	// 	var clean = sanitizeHtml(req.param('message'), {
-	// 	  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'img', 'u', 'strike'],
-	// 	  allowedAttributes: {
-	// 	    'img': [ 'src' ]
-	// 	  }
-	// 	});
-	// 	if (clean != ""){
-	// 		post = new PostModel({
-	// 			uid:uid,
-	// 			message: clean,
-	// 		});
+// GET returns all json object of all DB entries
+app.route('/post/')
+	.get(function(req, res, next){
+		PostModel.find({}, function (err, docs) {
+            res.json(docs);
+		});
+	});
 
-	// 		post.save(function (err) {
-	// 			if (!err) {
-	// 			  console.log("Post created");
-	// 			  return res.sendFile(__dirname+"/public/index.html");
-	// 			} else {
-	// 			  return console.log(err);
-	// 			}
-	// 		});     
-	// 	}else {
-	// 		return res.sendFile(__dirname+"/public/index.html");
-	// 	}});
-
+// GET returns json object of DB entries with a given unique identifier
 app.route('/post/:uid')
-    .get(function(req, res, next) {
-    	if (req.params.uid){
-        	PostModel.find({ uid : req.params.uid }, function (err, docs) {
-            	res.json(docs);
-        	});
-        } else {
-        	PostModel.find({}, function (err, docs) {
-            	res.json(docs);
-        	});	
-    	}});
-//     .post(function(req, res, next) {
-//         var post;
-// 		console.log("POST: ");
-// 		console.log(req.param('message'));
-
-// 		var clean = sanitizeHtml(req.param('message'), {
-// 		  allowedTags: [ 'b', 'i', 'em', 'strong', 'a', 'img'],
-// 		  allowedAttributes: {
-// 		    'img': [ 'src' ]
-// 		  }
-// 		});
-// 		if (clean != ""){
-// 			post = new PostModel({
-// 				message: clean,
-// 			});
-
-// 			post.save(function (err) {
-// 				if (!err) {
-// 				  console.log("Post created");
-// 				  return res.sendFile(__dirname+"/public/index.html");
-// 				} else {
-// 				  return console.log(err);
-// 				}
-// 			});     
-// 		}else {
-// 			return res.sendFile(__dirname+"/public/index.html");
-// 		}
-		
-		    
-// });
+    .get(function(req, res, next) {    	
+		PostModel.find({ uid : req.params.uid }, function (err, docs) {
+	    	res.json(docs);
+	    });
+    });
