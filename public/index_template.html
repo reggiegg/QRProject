@@ -38,8 +38,7 @@ ul
 				<img class="headerimage" src="{{path}}assets/images/78F5036BEDCD5FEC.JPG" width="100%" height="auto">
 			</div>
 			<div class="form">
-				<form action="/" method="post" onsubmit="">
-					<input type="hidden" name="uid" value="{{ uid }}" /> 
+				<form action="/p/{{ uid }}" method="post" onsubmit="">
 					<textarea type="text" class="textbox" rows="15" columns="auto" name="message"></textarea>
 					<button type="submit">Submit</button>
 				</form>
@@ -53,7 +52,7 @@ ul
 
 	<script type="text/javascript">
 
-	$.get("../post/{{ uid }}", function(response){
+	$.get("../posts/{{ uid }}", function(response){
 		for (var i = response.length-1; i >= 0; i--) {
 			$('.log').append("<li>"+response[i].message+"<br><br>"+new Date(response[i].creationDate).toLocaleString()+"</li><br><hr><br>");
 		};

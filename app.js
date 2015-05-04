@@ -30,17 +30,27 @@ mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_a
     }
 });
 
-
-// POST to this endpoint posts to board designated in request body - TODO: change from root
 // GET unused - TODO: might change to give overview of all boards, with tags of which boards
 app.route('/')
 	.get( function(req, res) {
 		console.log(req.params.uid);	
 		res.sendFile(__dirname+"/public/index.html");
+	});
+
+// GET generates board from unique identifier - template queries database, building board from results
+// POST posts to board designated by unique id
+// TODO: check to see if this is exploitable
+app.route('/p/:uid')
+	.get( function(req, res) {
+		uid = req.params.uid;
+		res.render(__dirname+"/public/index_template.html", {
+			path : "/public/",
+			uid : uid,
+		});	
 	})
 	.post(function(req, res, next) {
         var post;
-        var uid = req.body.uid;
+        var uid = req.params.uid;
 		console.log("POST: ");
 		console.log("From Page: " + uid);
 		console.log("Content: " + req.body.message);
@@ -75,21 +85,8 @@ app.route('/')
 						});
 		}});
 
-
-// GET generates board from unique identifier - template queries database, building board from results
-// TODO: check to see if this is exploitable
-app.route('/p/:uid')
-	.get( function(req, res) {
-		uid = req.params.uid;
-		res.render(__dirname+"/public/index_template.html", {
-			path : "/public/",
-			uid : uid,
-		});	
-
-	});
-
 // GET returns all json object of all DB entries
-app.route('/post/')
+app.route('/posts/')
 	.get(function(req, res, next){
 		PostModel.find({}, function (err, docs) {
             res.json(docs);
@@ -97,7 +94,7 @@ app.route('/post/')
 	});
 
 // GET returns json object of DB entries with a given unique identifier
-app.route('/post/:uid')
+app.route('/posts/:uid')
     .get(function(req, res, next) {    	
 		PostModel.find({ uid : req.params.uid }, function (err, docs) {
 	    	res.json(docs);
