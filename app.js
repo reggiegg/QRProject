@@ -30,12 +30,14 @@ mongoose.connect('mongodb://admin:qrproject@ds031647.mongolab.com:31647/heroku_a
     }
 });
 
-// GET unused - TODO: might change to give overview of all boards, with tags of which boards
+// GET returns all posts
 app.route('/')
-	.get( function(req, res) {
-		console.log(req.params.uid);	
-		res.sendFile(__dirname+"/public/index.html");
+	.get(function(req, res, next){
+		PostModel.find({}, function (err, docs) {
+            res.json(docs);
+		});
 	});
+
 
 // GET generates board from unique identifier - template queries database, building board from results
 // POST posts to board designated by unique id
